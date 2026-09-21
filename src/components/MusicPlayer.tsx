@@ -1,17 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Music, VolumeX, Sparkles } from "lucide-react";
 import { sounds } from "@/utils/soundEffects";
 
 export default function MusicPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  // Mounted client-side only, so the sound engine's state can seed this directly
+  const [isPlaying, setIsPlaying] = useState(() => sounds.isPlaying());
   const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    // Keep state in sync if external triggers change it
-    setIsPlaying(sounds.isPlaying());
-  }, []);
 
   const handleToggle = () => {
     sounds.playPop(700);
@@ -57,7 +53,7 @@ export default function MusicPlayer() {
         }}
       >
         <Sparkles size={14} color="#EE4E7B" />
-        {isPlaying ? "Birthday Music Box Playing 🎵" : "Play Birthday Music Box 🌸"}
+        {isPlaying ? "Lullaby Music Box Playing 🎵" : "Play the Music Box 🌸"}
       </div>
 
       {/* Floating Button */}

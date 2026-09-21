@@ -1,32 +1,22 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import FloatingPetals from "@/components/FloatingPetals";
-import HeroSection from "@/components/HeroSection";
-import BirthdayCake from "@/components/BirthdayCake";
-import SurpriseSection from "@/components/SurpriseSection";
-import PhotoGallery from "@/components/PhotoGallery";
+import BunnyHero from "@/components/BunnyHero";
+import WishJar from "@/components/WishJar";
+import BouquetBuilder from "@/components/BouquetBuilder";
+import PhotoBooth from "@/components/PhotoBooth";
+import HugButton from "@/components/HugButton";
 import Footer from "@/components/Footer";
 import MusicPlayer from "@/components/MusicPlayer";
-import LockScreen from "@/components/LockScreen";
-import { getTimeRemaining } from "@/utils/countdown";
-import { BIRTHDAY_DATA } from "@/data/birthdayData";
+import { useIsClient } from "@/utils/useIsClient";
 
 export default function Home() {
-  // null until checked on the client, so neither screen flashes before we know the time
-  const [isUnlocked, setIsUnlocked] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    setIsUnlocked(getTimeRemaining(BIRTHDAY_DATA.targetUnlockDate).isUnlocked);
-  }, []);
-
-  const handleUnlock = useCallback(() => setIsUnlocked(true), []);
+  // The jar and hug counter read saved progress from the browser, so render the sections client-side only
+  const isClient = useIsClient();
 
   const handleScrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -34,16 +24,13 @@ export default function Home() {
       {/* Floating Cherry Blossom & Rose Petals */}
       <FloatingPetals />
 
-      {isUnlocked === null ? null : !isUnlocked ? (
-        /* The September 22 Countdown Lock Screen — opens automatically at midnight PKT */
-        <LockScreen onUnlock={handleUnlock} />
-      ) : (
-        /* The Full Cute Birthday Celebration */
+      {isClient && (
         <>
-          <HeroSection onScrollTo={handleScrollTo} />
-          <BirthdayCake />
-          <SurpriseSection />
-          <PhotoGallery />
+          <BunnyHero onScrollTo={handleScrollTo} />
+          <WishJar />
+          <BouquetBuilder />
+          <PhotoBooth />
+          <HugButton />
           <Footer />
           <MusicPlayer />
         </>

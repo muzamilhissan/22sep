@@ -291,28 +291,7 @@ body {
   animation: rotateSlow 18s linear infinite;
 }
 
-/* Washi Tape Polaroid Style */
-.polaroid-card {
-  background: #ffffff;
-  padding: 14px 14px 22px 14px;
-  border-radius: 6px;
-  box-shadow: 0 10px 28px -4px rgba(220, 80, 120, 0.18), 0 2px 8px rgba(0, 0, 0, 0.04);
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .polaroid-card:hover {
-    transform: translateY(-8px) rotate(0deg) scale(1.02) !important;
-    box-shadow: 0 20px 40px -4px rgba(220, 80, 120, 0.28), 0 6px 14px rgba(0, 0, 0, 0.06);
-    z-index: 10;
-  }
-}
-
-.polaroid-card:active {
-  box-shadow: 0 6px 18px -4px rgba(220, 80, 120, 0.3), 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
+/* Washi tape strip */
 .washi-tape {
   position: absolute;
   top: -10px;
@@ -325,57 +304,6 @@ body {
   clip-path: polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%);
   backdrop-filter: blur(2px);
   z-index: 5;
-}
-
-/* Mobile Responsiveness Improvements */
-.cake-stage {
-  width: 100%;
-  max-width: 480px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 32px;
-  transform-origin: top center;
-  transition: transform 0.25s ease;
-}
-
-/* Scale the cake so its 420px plate always fits inside the panel */
-@media (max-width: 520px) {
-  .cake-stage { transform: scale(0.9); margin-bottom: -5px; }
-}
-
-@media (max-width: 460px) {
-  .cake-stage { transform: scale(0.8); margin-bottom: -34px; }
-}
-
-@media (max-width: 410px) {
-  .cake-stage { transform: scale(0.72); margin-bottom: -57px; }
-}
-
-@media (max-width: 375px) {
-  .cake-stage { transform: scale(0.66); margin-bottom: -75px; }
-}
-
-@media (max-width: 340px) {
-  .cake-stage { transform: scale(0.6); margin-bottom: -92px; }
-}
-
-/* Bigger invisible tap area around each tiny candle */
-.candle-hit {
-  position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.candle-hit::after {
-  content: "";
-  position: absolute;
-  inset: -10px -4px;
-}
-
-.candle-row {
-  touch-action: pan-y;
 }
 
 /* Mobile glass panel & buttons padding adjustments */
@@ -427,9 +355,155 @@ body {
   display: none;
 }
 
-@media (max-width: 400px) {
-  .tab-icon {
-    display: none;
+/* ============ Birthday Week: new cute bits ============ */
+
+.section-wrap {
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 225, 235, 0.85);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-pink-600);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: var(--font-playfair);
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  color: var(--color-pink-700);
+  line-height: 1.2;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.section-sub {
+  font-size: clamp(0.96rem, 3.8vw, 1.05rem);
+  color: var(--color-text-muted);
+  max-width: 520px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.new-pill {
+  background: linear-gradient(135deg, var(--color-pink-400), var(--color-pink-500));
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* Bunny */
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+@keyframes bunnyHop {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  30% { transform: translateY(-26px) scale(0.95, 1.06); }
+  55% { transform: translateY(0) scale(1.08, 0.92); }
+  75% { transform: translateY(-6px) scale(1, 1); }
+}
+
+@keyframes earWiggle {
+  0%, 100% { transform: rotate(var(--ear-rot)); }
+  50% { transform: rotate(calc(var(--ear-rot) * 1.8)); }
+}
+
+@keyframes floatUpFade {
+  0% { opacity: 0; transform: translate(-50%, 0) scale(0.4); }
+  15% { opacity: 1; transform: translate(-50%, -12px) scale(1.1); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--drift, 0px)), -140px) scale(0.9) rotate(var(--spin, 0deg)); }
+}
+
+@keyframes bubbleIn {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.6) translateY(8px); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+}
+
+/* Jar */
+@keyframes jarWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-6deg); }
+  40% { transform: rotate(5deg); }
+  60% { transform: rotate(-3deg); }
+  80% { transform: rotate(2deg); }
+}
+
+@keyframes starLaunch {
+  0% { opacity: 1; transform: translate(-50%, 0) scale(0.8) rotate(0deg); }
+  60% { opacity: 1; transform: translate(-50%, -120px) scale(1.4) rotate(200deg); }
+  100% { opacity: 0; transform: translate(-50%, -150px) scale(0.2) rotate(360deg); }
+}
+
+@keyframes noteUnfold {
+  0% { opacity: 0; transform: perspective(600px) rotateX(-80deg) scale(0.7); }
+  60% { opacity: 1; transform: perspective(600px) rotateX(10deg) scale(1.02); }
+  100% { opacity: 1; transform: perspective(600px) rotateX(0deg) scale(1); }
+}
+
+/* Bouquet */
+@keyframes flowerPop {
+  0% { opacity: 0; transform: translate(-50%, 40px) rotate(var(--rot)) scale(0.2); }
+  70% { opacity: 1; transform: translate(-50%, -6px) rotate(var(--rot)) scale(1.15); }
+  100% { opacity: 1; transform: translate(-50%, 0) rotate(var(--rot)) scale(1); }
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.6); }
+  70% { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.btn-flower:active {
+  transform: scale(0.92);
+}
+
+/* Photo booth */
+@keyframes cameraFlash {
+  0% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+
+@keyframes develop {
+  0% { filter: brightness(1.8) saturate(0) blur(4px); }
+  100% { filter: brightness(1) saturate(1) blur(0); }
+}
+
+/* Hug */
+@keyframes heartThump {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.pressable {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.pressable:focus-visible {
+  outline: 3px solid var(--color-pink-300);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .section-wrap {
+    padding: 56px 14px;
   }
 }
 
@@ -450,21 +524,5 @@ body {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-  }
-}
-
-/* Responsive grid for photo gallery */
-.polaroid-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 32px 24px;
-  width: 100%;
-  padding: 6px;
-}
-
-@media (max-width: 480px) {
-  .polaroid-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
   }
 }

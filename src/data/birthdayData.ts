@@ -9,62 +9,72 @@ export interface PhotoItem {
   likes: number;
 }
 
-export interface BirthdayReason {
+export interface JarNote {
   id: number;
-  title: string;
-  description: string;
   emoji: string;
+  text: string;
+}
+
+export interface BouquetFlower {
+  id: string;
+  emoji: string;
+  name: string;
+  meaning: string;
 }
 
 export const BIRTHDAY_DATA = {
   name: "Eraj",
   age: 21,
   birthDateString: "22 September",
-  targetUnlockDate: "2026-09-22T00:00:00+05:00", // Midnight of 22 Sep, Pakistan time (PKT, UTC+5)
-  tagline: "Celebrating 21 years of grace, sunshine, and pure magic ✨🌸",
+  tagline: "The candles are out, but the celebrating isn't over. A few brand-new little surprises, made just for you 🎀",
   
-  letter: {
-    salutation: "Dearest Eraj,",
-    opening: "Happy 21st Birthday! 🎂✨",
-    paragraphs: [
-      "Today is all about you—a day to celebrate the most radiant, kind-hearted, and lovely soul. Reaching 21 is such a special milestone; it marks a beautiful chapter of blossoming, discovering new horizons, and embracing the wonderful person you have grown to become.",
-      "Your warmth, your gentle kindness, and your effortless smile have a way of brightening up even the cloudiest days. You bring a quiet magic into every room you step into, and the world is undeniably a softer, sweeter place because of you.",
-      "As you blow out your 21 candles today, my wish for you is that this year treats you with the same tenderness and love that you give so generously to everyone around you. May all your dreams, both whispered and spoken, find their way to coming true.",
-      "Here is to 21 years of being uniquely, wonderfully you—and to the endless beautiful chapters yet to be written."
-    ],
-    closing: "With endless love, warm wishes, and huge hugs,",
-    signature: "Always wishing you the happiest moments 💖"
-  },
+  // Things the bunny says when she taps it
+  bunnyLines: [
+    "hehe, that tickles! 🎀",
+    "boop! 💗",
+    "happy birthday week, Eraj!",
+    "*happy bunny hops* 🐰",
+    "you're my favourite human 🥺",
+    "psst… check the jar below ✨",
+    "more hugs please!",
+    "21 looks cute on you 🌸",
+    "I'm made of 100% love",
+    "okay one more boop…"
+  ],
 
-  scratchWish: {
-    title: "Scratch to Reveal Eraj's Secret Birthday Wish ✨",
-    hint: "Use your mouse or finger to scratch off the pink glitter surface!",
-    revealedMessage: "🌸 May your 21st year overflow with unexpected blessings, cozy coffee mornings, genuine laughter, and dreams that unfold into breathtaking reality. You deserve all the stars in the sky, Eraj! Happy 21st Birthday! 💖🎂"
-  },
+  bouquetFlowers: [
+    { id: "tulip", emoji: "🌷", name: "Pink Tulip", meaning: "for caring, and being cared for" },
+    { id: "blossom", emoji: "🌸", name: "Cherry Blossom", meaning: "for new beginnings at 21" },
+    { id: "rose", emoji: "🌹", name: "Rose", meaning: "for all the love around you" },
+    { id: "sunflower", emoji: "🌻", name: "Sunflower", meaning: "for your sunshine energy" },
+    { id: "hibiscus", emoji: "🌺", name: "Hibiscus", meaning: "for your delicate beauty" },
+    { id: "daisy", emoji: "🌼", name: "Daisy", meaning: "for your sweet, gentle heart" }
+  ] as BouquetFlower[],
 
-  reasons: [
-    { id: 1, emoji: "🌸", title: "Radiant Presence", description: "Your smile brings warmth and gentle sunshine wherever you go." },
-    { id: 2, emoji: "✨", title: "Pure Heart", description: "Your genuine kindness and empathy make everyone feel cherished and safe." },
-    { id: 3, emoji: "🌷", title: "Quiet Grace", description: "The delicate and graceful way you navigate life's highs and lows." },
-    { id: 4, emoji: "💖", title: "Thoughtful Gestures", description: "You notice the little things that most people miss and remember what matters." },
-    { id: 5, emoji: "🎀", title: "Aesthetic Soul", description: "Your appreciation for beauty, poetry, flowers, and dreamy aesthetics." },
-    { id: 6, emoji: "🍓", title: "Contagious Laughter", description: "The authentic, bubbly joy in your laugh that effortlessly brightens the day." },
-    { id: 7, emoji: "🧁", title: "Soft & Strong", description: "A tender heart paired with quiet courage and admirable resilience." },
-    { id: 8, emoji: "🌟", title: "Inspiring Ambition", description: "The dedication and passion you put into everything you set your mind to." },
-    { id: 9, emoji: "🌿", title: "Calming Aura", description: "Just talking to you feels like a peaceful sanctuary in a busy world." },
-    { id: 10, emoji: "💌", title: "Sincere Friend", description: "Unwavering loyalty, listening ears, and a heart you can always count on." },
-    { id: 11, emoji: "🌙", title: "Dreamy Vision", description: "The beautiful, creative way you see hope and wonder in everyday moments." },
-    { id: 12, emoji: "💐", title: "Natural Charm", description: "An effortless sweetness and elegance that doesn't need to try." },
-    { id: 13, emoji: "☕", title: "Comforting Energy", description: "Like a warm cup of cocoa on a rainy morning, your presence is healing." },
-    { id: 14, emoji: "🦋", title: "Growth & Bloom", description: "Watching you grow into your power and confidence with every passing year." },
-    { id: 15, emoji: "🍯", title: "Golden Humility", description: "Remaining so humble, down to earth, and sweet no matter what you achieve." },
-    { id: 16, emoji: "🎉", title: "Celebrating Others", description: "Always the first to cheer for and uplift those you care about." },
-    { id: 17, emoji: "🍰", title: "Sweet Innocence", description: "A playful, pure spirit that makes life feel lighter and more fun." },
-    { id: 18, emoji: "🕊️", title: "Gentle Patience", description: "The patient understanding and compassion you offer so freely." },
-    { id: 19, emoji: "💫", title: "Unforgettable Sparkle", description: "An inner glow that lights up memories long after the day ends." },
-    { id: 20, emoji: "🌹", title: "Timeless Elegance", description: "Poise, charm, and kindness woven together seamlessly." },
-    { id: 21, emoji: "🎂", title: "Turning 21!", description: "Stepping into your 21st year looking stunning, loved, and destined for brilliance!" }
-  ] as BirthdayReason[],
+  // 21 little folded-star notes for the "Jar of Little Sunshines"
+  jarNotes: [
+    { id: 1, emoji: "🌸", text: "Open this whenever you forget how loved you are. (Spoiler: very, very loved.)" },
+    { id: 2, emoji: "☀️", text: "You're the kind of person who makes ordinary days feel like weekends." },
+    { id: 3, emoji: "🍓", text: "A reminder to eat something sweet today. Birthday rules extend all week." },
+    { id: 4, emoji: "🧸", text: "Sending you one enormous, squishy, all-the-way-around hug. Consider it delivered." },
+    { id: 5, emoji: "🌙", text: "May your nights be cozy, your sleep be deep, and your dreams be the good kind." },
+    { id: 6, emoji: "🎀", text: "Your laugh is officially one of the best sounds in the world. Please use it often." },
+    { id: 7, emoji: "🌷", text: "Growing isn't always pretty, but look at you — blooming anyway." },
+    { id: 8, emoji: "☕", text: "Here's to slow mornings, warm drinks, and nowhere you have to rush to." },
+    { id: 9, emoji: "🦋", text: "Be gentle with yourself this year. You're doing so much better than you think." },
+    { id: 10, emoji: "💌", text: "If kindness were a currency, you'd be the richest person I know." },
+    { id: 11, emoji: "🍰", text: "21 looks ridiculously good on you. Just thought you should know." },
+    { id: 12, emoji: "🌈", text: "For every cloudy day this year, may there be at least two rainbows." },
+    { id: 13, emoji: "🐣", text: "Tiny reminder: drink water, stretch, and text back the people who adore you." },
+    { id: 14, emoji: "✨", text: "You don't need to shine brighter. You just need to keep being you." },
+    { id: 15, emoji: "🌻", text: "Wishing you sunflower energy: always facing toward the light." },
+    { id: 16, emoji: "🎧", text: "May this year's playlist be full of songs you'll dance to in the kitchen." },
+    { id: 17, emoji: "🍯", text: "Life is sweeter with you in it. That's not a compliment, it's a fact." },
+    { id: 18, emoji: "🕊️", text: "Wishing you peace in your heart and people who protect it." },
+    { id: 19, emoji: "🌟", text: "Every dream you whispered while blowing out those candles? Go get them." },
+    { id: 20, emoji: "💐", text: "If I could, I'd send you a bouquet every single day. This note will have to do." },
+    { id: 21, emoji: "💖", text: "The last star in the jar, saved for the most important thing: happy birthday, Eraj. Truly." }
+  ] as JarNote[],
 
   photos: [
     {

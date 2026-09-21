@@ -57,7 +57,7 @@ export default function Footer() {
           fontWeight: 600
         }}
       >
-        Happy 21st Birthday, Dearest Eraj! 💖
+        Still celebrating you, Eraj! 🎀
       </p>
 
       <p
@@ -71,7 +71,7 @@ export default function Footer() {
           gap: "4px 6px"
         }}
       >
-        <span>Crafted with infinite love for her special day</span>
+        <span>Made with infinite love, for her birthday week</span>
         <Heart size={14} fill="#EE4E7B" color="#EE4E7B" />
         <span>22 September</span>
       </p>

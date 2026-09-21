@@ -91,60 +91,108 @@ class SoundEngine {
     });
   }
 
-  // Play candle blowout sound (gentle breath whoosh + celebratory twinkle)
-  public playCandleBlow() {
-    if (this.isMuted) return;
+  // Tiny helper: one soft enveloped tone
+  private tone(freq: number, opts: { type?: OscillatorType; start?: number; dur?: number; vol?: number; slideTo?: number } = {}) {
     const ctx = this.getContext();
     if (!ctx) return;
-
+    const { type = "sine", start = 0, dur = 0.18, vol = 0.14, slideTo } = opts;
     try {
-      // Pink noise buffer for soft breath
-      const bufferSize = ctx.sampleRate * 0.4;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      let b0 = 0, b1 = 0, b2 = 0;
-      for (let i = 0; i < bufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        b0 = 0.99886 * b0 + white * 0.0555179;
-        b1 = 0.99332 * b1 + white * 0.0750759;
-        b2 = 0.96900 * b2 + white * 0.1538520;
-        data[i] = (b0 + b1 + b2) * 0.1;
-      }
-
-      const noise = ctx.createBufferSource();
-      noise.buffer = buffer;
-
-      const filter = ctx.createBiquadFilter();
-      filter.type = "lowpass";
-      filter.frequency.setValueAtTime(800, ctx.currentTime);
-      filter.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.4);
-
+      const t = ctx.currentTime + start;
+      const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
-
-      noise.connect(filter);
-      filter.connect(gain);
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, t);
+      if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(vol, t + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(gain);
       gain.connect(ctx.destination);
-
-      noise.start();
-
-      // Followed by sweet twinkling chime
-      setTimeout(() => {
-        this.playSparkle();
-      }, 250);
+      osc.start(t);
+      osc.stop(t + dur + 0.02);
     } catch {
       // ignore
     }
   }
 
-  // Play gift box unwrap sound
-  public playGiftUnwrap() {
+  // Bunny giggle: three quick, rising squeaks
+  public playSqueak() {
     if (this.isMuted) return;
-    this.playSparkle();
+    const base = 900 + Math.random() * 200;
+    [0, 0.09, 0.18].forEach((start, i) => {
+      this.tone(base + i * 180, { type: "triangle", start, dur: 0.08, vol: 0.12, slideTo: base + i * 180 + 380 });
+    });
   }
 
-  // Music Box Melody: "Happy Birthday to You" (Key of C)
+  // Soft cartoon "boop" (pitch drops like a squishy nose press)
+  public playBoop() {
+    if (this.isMuted) return;
+    this.tone(720, { dur: 0.16, vol: 0.2, slideTo: 330 });
+  }
+
+  // Gentle harp-like pluck; step walks up a pentatonic scale so repeats sound like a tune
+  public playPluck(step = 0) {
+    if (this.isMuted) return;
+    const scale = [523.25, 587.33, 659.25, 783.99, 880.0, 1046.5, 1174.66, 1318.51, 1567.98];
+    const freq = scale[((step % scale.length) + scale.length) % scale.length];
+    this.tone(freq, { type: "triangle", dur: 0.45, vol: 0.13 });
+    this.tone(freq * 2, { dur: 0.3, vol: 0.04 });
+  }
+
+  // Paper-star unfold: a little two-note music-box chime
+  public playChime() {
+    if (this.isMuted) return;
+    this.tone(1318.51, { dur: 0.5, vol: 0.09 });
+    this.tone(1760, { start: 0.1, dur: 0.6, vol: 0.08 });
+  }
+
+  // Glass jar jiggle
+  public playJiggle() {
+    if (this.isMuted) return;
+    [0, 0.06, 0.12].forEach((start, i) => this.tone(2100 - i * 250, { start, dur: 0.07, vol: 0.05 }));
+  }
+
+  // Camera shutter: short filtered noise click
+  public playShutter() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const len = Math.floor(ctx.sampleRate * 0.06);
+      const buffer = ctx.createBuffer(1, len, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / len);
+      const src = ctx.createBufferSource();
+      src.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = "highpass";
+      filter.frequency.value = 1800;
+      const gain = ctx.createGain();
+      gain.gain.value = 0.25;
+      src.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      src.start();
+      this.tone(1500, { start: 0.07, dur: 0.05, vol: 0.05 });
+    } catch {
+      // ignore
+    }
+  }
+
+  // Rising heartbeat-ish tick while a hug is charging (progress 0..1)
+  public playHugTick(progress: number) {
+    if (this.isMuted) return;
+    this.tone(300 + progress * 500, { dur: 0.09, vol: 0.08 });
+  }
+
+  // "Mwah!" — a quick kiss-like swoop down followed by sparkles
+  public playKiss() {
+    if (this.isMuted) return;
+    this.tone(1400, { type: "triangle", dur: 0.12, vol: 0.14, slideTo: 600 });
+    setTimeout(() => this.playSparkle(), 120);
+  }
+
+  // Music Box Melody: "Twinkle Twinkle Little Star" (public domain lullaby, key of C)
   public startMusicBox() {
     if (this.isMusicPlaying || this.isMuted) return;
     const ctx = this.getContext();
@@ -153,16 +201,18 @@ class SoundEngine {
     this.isMusicPlaying = true;
 
     // Melody: [frequency, duration in beats]
-    // C4=261.63, D4=293.66, E4=329.63, F4=349.23, G4=392.00, A4=440.00, B4=493.88, C5=523.25
+    const C = 261.63, D = 293.66, E = 329.63, F = 349.23, G = 392.0, A = 440.0;
     const notes: [number, number][] = [
-      [261.63, 0.75], [261.63, 0.25], [293.66, 1], [261.63, 1], [349.23, 1], [329.63, 2], // Happy birthday to you
-      [261.63, 0.75], [261.63, 0.25], [293.66, 1], [261.63, 1], [392.00, 1], [349.23, 2], // Happy birthday to you
-      [261.63, 0.75], [261.63, 0.25], [523.25, 1], [440.00, 1], [349.23, 1], [329.63, 1], [293.66, 2], // Happy birthday dear Eraj
-      [466.16, 0.75], [466.16, 0.25], [440.00, 1], [349.23, 1], [392.00, 1], [349.23, 2.5] // Happy birthday to you!
+      [C, 1], [C, 1], [G, 1], [G, 1], [A, 1], [A, 1], [G, 2],
+      [F, 1], [F, 1], [E, 1], [E, 1], [D, 1], [D, 1], [C, 2],
+      [G, 1], [G, 1], [F, 1], [F, 1], [E, 1], [E, 1], [D, 2],
+      [G, 1], [G, 1], [F, 1], [F, 1], [E, 1], [E, 1], [D, 2],
+      [C, 1], [C, 1], [G, 1], [G, 1], [A, 1], [A, 1], [G, 2],
+      [F, 1], [F, 1], [E, 1], [E, 1], [D, 1], [D, 1], [C, 3]
     ];
 
     let currentStep = 0;
-    const tempo = 450; // ms per beat
+    const tempo = 420; // ms per beat
 
     const playNext = () => {
       if (!this.isMusicPlaying || this.isMuted) return;

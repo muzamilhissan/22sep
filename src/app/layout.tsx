@@ -11,11 +11,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://eraj-21st-birthday.vercel.app"),
-  title: "Happy 21st Birthday Eraj! 🌸🎂 | 22 September",
-  description: "A cute, floral, and magical 21st birthday celebration for Eraj with an interactive cake, cherished memories polaroid wall, and heartfelt surprises.",
+  title: "Still Celebrating You, Eraj 🎀 | Birthday Week",
+  description: "Brand-new little surprises for Eraj's birthday week: a jar of 21 sunshine notes, a bouquet to bloom, a photo booth, and unlimited virtual hugs.",
   openGraph: {
-    title: "Happy 21st Birthday Eraj! 🌸🎂",
-    description: "Celebrating 21 years of grace, sunshine, and pure magic. Happy Birthday Eraj!",
+    title: "Still Celebrating You, Eraj 🎀",
+    description: "The candles are out, but the celebrating isn't over. New surprises inside 💗",
     images: ["/photos/img3.webp"]
   },
   icons: {
