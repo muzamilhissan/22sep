@@ -1,49 +1,470 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --font-outfit: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-script: 'Dancing Script', cursive;
+  --font-handwriting: 'Caveat', cursive;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Eraj's Cute Pink Color Palette */
+  --color-bg-base: #FFF5F7;
+  --color-bg-soft: #FFEAF0;
+  --color-pink-50: #FFF0F4;
+  --color-pink-100: #FFE1EB;
+  --color-pink-200: #FFC2D4;
+  --color-pink-300: #FF9EBB;
+  --color-pink-400: #FF7096;
+  --color-pink-500: #EE4E7B;
+  --color-pink-600: #D8265B;
+  --color-pink-700: #A81440;
+  
+  --color-gold-sparkle: #F3C969;
+  --color-gold-glow: #FCE8B3;
+  --color-cream: #FFFBF8;
+  --color-text-main: #4A2E35;
+  --color-text-muted: #8A6570;
+  --color-text-light: #B48B98;
 
-html {
-  height: 100%;
-}
+  /* Glassmorphic Surfaces */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-hover: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(255, 180, 205, 0.45);
+  --glass-border-strong: rgba(255, 112, 150, 0.4);
+  --glass-blur: blur(14px);
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  /* Shadows */
+  --shadow-subtle: 0 4px 20px -2px rgba(238, 78, 123, 0.08);
+  --shadow-medium: 0 10px 30px -4px rgba(238, 78, 123, 0.16);
+  --shadow-elevated: 0 20px 45px -6px rgba(238, 78, 123, 0.24);
+  --shadow-glow: 0 0 25px rgba(255, 112, 150, 0.35);
 
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-full: 9999px;
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Removes the 300ms tap delay & double-tap zoom while keeping pinch zoom */
+  touch-action: manipulation;
+}
+
+button,
+[role="button"],
 a {
-  color: inherit;
+  touch-action: manipulation;
+}
+
+section[id] {
+  scroll-margin-top: 12px;
+}
+
+body {
+  min-height: 100%;
+  font-family: var(--font-outfit);
+  color: var(--color-text-main);
+  background-color: var(--color-bg-base);
+  background-image: 
+    radial-gradient(at 10% 10%, rgba(255, 194, 212, 0.4) 0px, transparent 50%),
+    radial-gradient(at 90% 20%, rgba(255, 225, 235, 0.6) 0px, transparent 50%),
+    radial-gradient(at 50% 60%, rgba(255, 240, 244, 0.5) 0px, transparent 60%),
+    radial-gradient(at 80% 90%, rgba(255, 194, 212, 0.35) 0px, transparent 50%),
+    radial-gradient(at 20% 90%, rgba(255, 225, 235, 0.5) 0px, transparent 50%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Custom Cute Selection */
+::selection {
+  background: var(--color-pink-200);
+  color: var(--color-pink-700);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-soft);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-pink-300);
+  border-radius: 999px;
+  border: 2px solid var(--color-bg-soft);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-pink-400);
+}
+
+/* Typography Helpers */
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.font-handwriting {
+  font-family: var(--font-handwriting);
+}
+
+/* Common Utility Classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-medium);
+  border-radius: var(--radius-lg);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .glass-panel:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-strong);
+    box-shadow: var(--shadow-elevated);
+  }
+}
+
+/* Cute Buttons */
+.btn-cute-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--color-pink-400) 0%, var(--color-pink-500) 100%);
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(238, 78, 123, 0.35);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-cute-primary::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 55%
+  );
+  transform: rotate(25deg);
+  animation: shimmerSweep 4s infinite linear;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-cute-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 28px rgba(238, 78, 123, 0.45);
+  }
+}
+
+.btn-cute-primary:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.btn-cute-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  color: var(--color-pink-600);
+  border: 1.5px solid var(--color-pink-200);
+  padding: 12px 26px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (hover: hover) and (pointer: fine) {
+  .btn-cute-secondary:hover {
+    background: #ffffff;
+    border-color: var(--color-pink-400);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-medium);
+  }
+}
+
+.btn-cute-secondary:active {
+  background: #ffffff;
+  transform: scale(0.97);
+}
+
+/* Animations */
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  25% { transform: translateX(100%) rotate(25deg); }
+  100% { transform: translateX(100%) rotate(25deg); }
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes flameFlicker {
+  0%, 100% {
+    transform: scale(1) rotate(-1deg);
+    filter: drop-shadow(0 0 8px #ffd000) drop-shadow(0 0 16px #ff7096);
+  }
+  25% {
+    transform: scale(1.08, 0.94) rotate(2deg);
+    filter: drop-shadow(0 0 10px #ffe155) drop-shadow(0 0 20px #ff7096);
+  }
+  50% {
+    transform: scale(0.95, 1.05) rotate(-2deg);
+    filter: drop-shadow(0 0 7px #ffd000) drop-shadow(0 0 14px #ff7096);
+  }
+  75% {
+    transform: scale(1.04, 0.98) rotate(1deg);
+    filter: drop-shadow(0 0 11px #ffe155) drop-shadow(0 0 22px #ff7096);
+  }
+}
+
+@keyframes smokeRise {
+  0% {
+    opacity: 0.8;
+    transform: translateY(0) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(1.8) rotate(10deg);
+  }
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-float {
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: heartPulse 2.2s ease-in-out infinite;
+}
+
+.animate-flame {
+  transform-origin: bottom center;
+  animation: flameFlicker 1.8s infinite ease-in-out;
+}
+
+.animate-spin-slow {
+  animation: rotateSlow 18s linear infinite;
+}
+
+/* Washi Tape Polaroid Style */
+.polaroid-card {
+  background: #ffffff;
+  padding: 14px 14px 22px 14px;
+  border-radius: 6px;
+  box-shadow: 0 10px 28px -4px rgba(220, 80, 120, 0.18), 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .polaroid-card:hover {
+    transform: translateY(-8px) rotate(0deg) scale(1.02) !important;
+    box-shadow: 0 20px 40px -4px rgba(220, 80, 120, 0.28), 0 6px 14px rgba(0, 0, 0, 0.06);
+    z-index: 10;
+  }
+}
+
+.polaroid-card:active {
+  box-shadow: 0 6px 18px -4px rgba(220, 80, 120, 0.3), 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.washi-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 22px;
+  background: rgba(255, 182, 193, 0.7);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  clip-path: polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%);
+  backdrop-filter: blur(2px);
+  z-index: 5;
+}
+
+/* Mobile Responsiveness Improvements */
+.cake-stage {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  transform-origin: top center;
+  transition: transform 0.25s ease;
+}
+
+/* Scale the cake so its 420px plate always fits inside the panel */
+@media (max-width: 520px) {
+  .cake-stage { transform: scale(0.9); margin-bottom: -5px; }
+}
+
+@media (max-width: 460px) {
+  .cake-stage { transform: scale(0.8); margin-bottom: -34px; }
+}
+
+@media (max-width: 410px) {
+  .cake-stage { transform: scale(0.72); margin-bottom: -57px; }
+}
+
+@media (max-width: 375px) {
+  .cake-stage { transform: scale(0.66); margin-bottom: -75px; }
+}
+
+@media (max-width: 340px) {
+  .cake-stage { transform: scale(0.6); margin-bottom: -92px; }
+}
+
+/* Bigger invisible tap area around each tiny candle */
+.candle-hit {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.candle-hit::after {
+  content: "";
+  position: absolute;
+  inset: -10px -4px;
+}
+
+.candle-row {
+  touch-action: pan-y;
+}
+
+/* Mobile glass panel & buttons padding adjustments */
+@media (max-width: 640px) {
+  .glass-panel {
+    padding: 30px 18px !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .btn-cute-primary,
+  .btn-cute-secondary {
+    padding: 10px 20px !important;
+    font-size: 0.92rem !important;
+    min-height: 44px;
+  }
+
+  /* Music player tooltip hide on small screens */
+  .music-tooltip {
+    display: none !important;
+  }
+
+  .section-pad {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+
+  .label-long {
+    display: none !important;
+  }
+
+  .label-short {
+    display: inline !important;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .hero-actions > button {
+    width: 100%;
+  }
+}
+
+.label-short {
+  display: none;
+}
+
+@media (max-width: 400px) {
+  .tab-icon {
+    display: none;
+  }
+}
+
+/* Fixed backgrounds are janky / unsupported on mobile browsers */
+@media (hover: none) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   html {
-    color-scheme: dark;
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Responsive grid for photo gallery */
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 32px 24px;
+  width: 100%;
+  padding: 6px;
+}
+
+@media (max-width: 480px) {
+  .polaroid-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
 }
