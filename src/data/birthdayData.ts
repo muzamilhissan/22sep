@@ -9,72 +9,62 @@ export interface PhotoItem {
   likes: number;
 }
 
-export interface JarNote {
-  id: number;
-  emoji: string;
-  text: string;
-}
-
-export interface BouquetFlower {
+export interface Coupon {
   id: string;
   emoji: string;
-  name: string;
-  meaning: string;
+  title: string;
+  finePrint: string;
 }
 
 export const BIRTHDAY_DATA = {
   name: "Eraj",
   age: 21,
   birthDateString: "22 September",
-  tagline: "The candles are out, but the celebrating isn't over. A few brand-new little surprises, made just for you 🎀",
+  tagline: "Round two of the celebrations! Brand-new little surprises, made just for you 🎀",
   
-  // Things the bunny says when she taps it
-  bunnyLines: [
-    "hehe, that tickles! 🎀",
-    "boop! 💗",
-    "happy birthday week, Eraj!",
-    "*happy bunny hops* 🐰",
-    "you're my favourite human 🥺",
-    "psst… check the jar below ✨",
-    "more hugs please!",
-    "21 looks cute on you 🌸",
-    "I'm made of 100% love",
-    "okay one more boop…"
+  // Things Mochi the kitten says when she's tapped
+  kittenLines: [
+    "mew! hi Eraj 🐾",
+    "I saved you a cup of tea 🍵",
+    "*happy tail swish*",
+    "you smell like birthday cake 🧁",
+    "pet me pet me pet me",
+    "go pop the balloons! 🎈",
+    "I'm your official birthday cat now",
+    "mrrp? more cuddles?",
+    "21 & fabulous 💅",
+    "okay I'm napping now… jk tap again"
   ],
 
-  bouquetFlowers: [
-    { id: "tulip", emoji: "🌷", name: "Pink Tulip", meaning: "for caring, and being cared for" },
-    { id: "blossom", emoji: "🌸", name: "Cherry Blossom", meaning: "for new beginnings at 21" },
-    { id: "rose", emoji: "🌹", name: "Rose", meaning: "for all the love around you" },
-    { id: "sunflower", emoji: "🌻", name: "Sunflower", meaning: "for your sunshine energy" },
-    { id: "hibiscus", emoji: "🌺", name: "Hibiscus", meaning: "for your delicate beauty" },
-    { id: "daisy", emoji: "🌼", name: "Daisy", meaning: "for your sweet, gentle heart" }
-  ] as BouquetFlower[],
+  // One word hides inside each balloon
+  balloonMessage: ["You", "make", "every", "day", "sweeter,", "Eraj 💗"],
 
-  // 21 little folded-star notes for the "Jar of Little Sunshines"
-  jarNotes: [
-    { id: 1, emoji: "🌸", text: "Open this whenever you forget how loved you are. (Spoiler: very, very loved.)" },
-    { id: 2, emoji: "☀️", text: "You're the kind of person who makes ordinary days feel like weekends." },
-    { id: 3, emoji: "🍓", text: "A reminder to eat something sweet today. Birthday rules extend all week." },
-    { id: 4, emoji: "🧸", text: "Sending you one enormous, squishy, all-the-way-around hug. Consider it delivered." },
-    { id: 5, emoji: "🌙", text: "May your nights be cozy, your sleep be deep, and your dreams be the good kind." },
-    { id: 6, emoji: "🎀", text: "Your laugh is officially one of the best sounds in the world. Please use it often." },
-    { id: 7, emoji: "🌷", text: "Growing isn't always pretty, but look at you — blooming anyway." },
-    { id: 8, emoji: "☕", text: "Here's to slow mornings, warm drinks, and nowhere you have to rush to." },
-    { id: 9, emoji: "🦋", text: "Be gentle with yourself this year. You're doing so much better than you think." },
-    { id: 10, emoji: "💌", text: "If kindness were a currency, you'd be the richest person I know." },
-    { id: 11, emoji: "🍰", text: "21 looks ridiculously good on you. Just thought you should know." },
-    { id: 12, emoji: "🌈", text: "For every cloudy day this year, may there be at least two rainbows." },
-    { id: 13, emoji: "🐣", text: "Tiny reminder: drink water, stretch, and text back the people who adore you." },
-    { id: 14, emoji: "✨", text: "You don't need to shine brighter. You just need to keep being you." },
-    { id: 15, emoji: "🌻", text: "Wishing you sunflower energy: always facing toward the light." },
-    { id: 16, emoji: "🎧", text: "May this year's playlist be full of songs you'll dance to in the kitchen." },
-    { id: 17, emoji: "🍯", text: "Life is sweeter with you in it. That's not a compliment, it's a fact." },
-    { id: 18, emoji: "🕊️", text: "Wishing you peace in your heart and people who protect it." },
-    { id: 19, emoji: "🌟", text: "Every dream you whispered while blowing out those candles? Go get them." },
-    { id: 20, emoji: "💐", text: "If I could, I'd send you a bouquet every single day. This note will have to do." },
-    { id: 21, emoji: "💖", text: "The last star in the jar, saved for the most important thing: happy birthday, Eraj. Truly." }
-  ] as JarNote[],
+  fortunes: [
+    "A year full of soft mornings and loud laughter is heading your way. 🌤️",
+    "Someone is thinking about how amazing you are. (It's everyone.) 💭",
+    "Your 21st year will surprise you, in the very best ways. ✨",
+    "An unexpected good thing will make you squeal this month. 🎀",
+    "The universe owes you ice cream. Collect it soon. 🍦",
+    "The dreams you whispered to your candles are listening. 🕯️",
+    "A new favourite song, a new favourite place, and old favourite people. 🎧",
+    "You will glow so much this year that sunglasses become necessary. 😎",
+    "Good news travels fast, and it's travelling toward you. 💌",
+    "Your kindness will come back to you, doubled and wrapped in a bow. 🎁",
+    "Expect at least 21 moments this year where you feel truly happy. 🌸",
+    "Luck is on your side. So are snacks. 🍪"
+  ],
+
+  // Edit these to things you can actually deliver 😉
+  coupons: [
+    { id: "ice-cream", emoji: "🍦", title: "One Ice Cream, On Me", finePrint: "Any flavour. Extra sprinkles legally required." },
+    { id: "movie", emoji: "🎬", title: "Movie Night, You Pick", finePrint: "No complaining about your choice allowed." },
+    { id: "rant", emoji: "🗣️", title: "Unlimited Rant Session", finePrint: "Full listening mode. Zero advice unless requested." },
+    { id: "compliments", emoji: "🎙️", title: "Voice Note Full of Compliments", finePrint: "Minimum length: 2 minutes of pure hype." },
+    { id: "breakfast", emoji: "🥞", title: "Breakfast Treat", finePrint: "Pancakes, parathas, or whatever your heart desires." },
+    { id: "argument", emoji: "🏳️", title: "Win Any Argument Free", finePrint: "One use only. Use it wisely, queen." },
+    { id: "playlist", emoji: "🎧", title: "A Playlist Made Just for You", finePrint: "Hand-picked, zero skips guaranteed." },
+    { id: "photoshoot", emoji: "📸", title: "Personal Photographer for a Day", finePrint: "As many retakes as you want. No sighing." }
+  ] as Coupon[],
 
   photos: [
     {

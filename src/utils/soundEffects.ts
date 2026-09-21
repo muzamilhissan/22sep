@@ -115,15 +115,6 @@ class SoundEngine {
     }
   }
 
-  // Bunny giggle: three quick, rising squeaks
-  public playSqueak() {
-    if (this.isMuted) return;
-    const base = 900 + Math.random() * 200;
-    [0, 0.09, 0.18].forEach((start, i) => {
-      this.tone(base + i * 180, { type: "triangle", start, dur: 0.08, vol: 0.12, slideTo: base + i * 180 + 380 });
-    });
-  }
-
   // Soft cartoon "boop" (pitch drops like a squishy nose press)
   public playBoop() {
     if (this.isMuted) return;
@@ -146,50 +137,103 @@ class SoundEngine {
     this.tone(1760, { start: 0.1, dur: 0.6, vol: 0.08 });
   }
 
-  // Glass jar jiggle
-  public playJiggle() {
-    if (this.isMuted) return;
-    [0, 0.06, 0.12].forEach((start, i) => this.tone(2100 - i * 250, { start, dur: 0.07, vol: 0.05 }));
-  }
-
-  // Camera shutter: short filtered noise click
-  public playShutter() {
-    if (this.isMuted) return;
+  // Short burst of filtered noise (used for pops, crunches, stamps)
+  private noise(dur: number, opts: { type?: BiquadFilterType; freq?: number; vol?: number; start?: number } = {}) {
     const ctx = this.getContext();
     if (!ctx) return;
+    const { type = "bandpass", freq = 1200, vol = 0.3, start = 0 } = opts;
     try {
-      const len = Math.floor(ctx.sampleRate * 0.06);
+      const len = Math.floor(ctx.sampleRate * dur);
       const buffer = ctx.createBuffer(1, len, ctx.sampleRate);
       const data = buffer.getChannelData(0);
-      for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / len);
+      for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2);
       const src = ctx.createBufferSource();
       src.buffer = buffer;
       const filter = ctx.createBiquadFilter();
-      filter.type = "highpass";
-      filter.frequency.value = 1800;
+      filter.type = type;
+      filter.frequency.value = freq;
       const gain = ctx.createGain();
-      gain.gain.value = 0.25;
+      gain.gain.value = vol;
       src.connect(filter);
       filter.connect(gain);
       gain.connect(ctx.destination);
-      src.start();
-      this.tone(1500, { start: 0.07, dur: 0.05, vol: 0.05 });
+      src.start(ctx.currentTime + start);
     } catch {
       // ignore
     }
   }
 
-  // Rising heartbeat-ish tick while a hug is charging (progress 0..1)
-  public playHugTick(progress: number) {
+  // Kitten "mew": a little rise-and-fall glide
+  public playMew() {
     if (this.isMuted) return;
-    this.tone(300 + progress * 500, { dur: 0.09, vol: 0.08 });
+    const base = 700 + Math.random() * 150;
+    this.tone(base, { type: "triangle", dur: 0.14, vol: 0.12, slideTo: base * 1.45 });
+    this.tone(base * 1.45, { type: "triangle", start: 0.13, dur: 0.22, vol: 0.1, slideTo: base * 0.9 });
   }
 
-  // "Mwah!" — a quick kiss-like swoop down followed by sparkles
-  public playKiss() {
+  // Soft purr: low rumble pulsed by an LFO
+  public playPurr() {
     if (this.isMuted) return;
-    this.tone(1400, { type: "triangle", dur: 0.12, vol: 0.14, slideTo: 600 });
-    setTimeout(() => this.playSparkle(), 120);
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const t = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const lfo = ctx.createOscillator();
+      const lfoGain = ctx.createGain();
+      const gain = ctx.createGain();
+      const filter = ctx.createBiquadFilter();
+      osc.type = "sawtooth";
+      osc.frequency.value = 55;
+      filter.type = "lowpass";
+      filter.frequency.value = 260;
+      lfo.frequency.value = 24;
+      lfoGain.gain.value = 0.05;
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.06, t + 0.15);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.3);
+      lfo.connect(lfoGain);
+      lfoGain.connect(gain.gain);
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      lfo.start(t);
+      osc.stop(t + 1.35);
+      lfo.stop(t + 1.35);
+    } catch {
+      // ignore
+    }
+  }
+
+  // Balloon pop: sharp noise crack + a tiny squeak
+  public playBalloonPop() {
+    if (this.isMuted) return;
+    this.noise(0.08, { type: "highpass", freq: 900, vol: 0.45 });
+    this.tone(1200 + Math.random() * 400, { start: 0.02, dur: 0.1, vol: 0.06, slideTo: 500 });
+  }
+
+  // Cookie crunch: a couple of crumbly noise bursts
+  public playCrunch() {
+    if (this.isMuted) return;
+    this.noise(0.09, { freq: 2200, vol: 0.4 });
+    this.noise(0.07, { freq: 1500, vol: 0.3, start: 0.07 });
+    this.noise(0.05, { freq: 2800, vol: 0.2, start: 0.13 });
+  }
+
+  // Rubber stamp thud
+  public playStamp() {
+    if (this.isMuted) return;
+    this.noise(0.1, { type: "lowpass", freq: 400, vol: 0.6 });
+    this.tone(140, { dur: 0.14, vol: 0.2, slideTo: 70 });
+  }
+
+  // Sprinkles: a quick shower of tiny high blips
+  public playSprinkle() {
+    if (this.isMuted) return;
+    for (let i = 0; i < 6; i++) {
+      this.tone(1800 + Math.random() * 1600, { start: i * 0.035, dur: 0.05, vol: 0.05 });
+    }
   }
 
   // Music Box Melody: "Twinkle Twinkle Little Star" (public domain lullaby, key of C)

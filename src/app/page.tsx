@@ -2,17 +2,17 @@
 
 import React from "react";
 import FloatingPetals from "@/components/FloatingPetals";
-import BunnyHero from "@/components/BunnyHero";
-import WishJar from "@/components/WishJar";
-import BouquetBuilder from "@/components/BouquetBuilder";
-import PhotoBooth from "@/components/PhotoBooth";
-import HugButton from "@/components/HugButton";
+import KittenHero from "@/components/KittenHero";
+import BalloonPop from "@/components/BalloonPop";
+import CupcakeDecorator from "@/components/CupcakeDecorator";
+import FortuneCookie from "@/components/FortuneCookie";
+import CouponBook from "@/components/CouponBook";
 import Footer from "@/components/Footer";
 import MusicPlayer from "@/components/MusicPlayer";
 import { useIsClient } from "@/utils/useIsClient";
 
 export default function Home() {
-  // The jar and hug counter read saved progress from the browser, so render the sections client-side only
+  // The coupon book reads saved progress from the browser, so render the sections client-side only
   const isClient = useIsClient();
 
   const handleScrollTo = (id: string) => {
@@ -26,11 +26,11 @@ export default function Home() {
 
       {isClient && (
         <>
-          <BunnyHero onScrollTo={handleScrollTo} />
-          <WishJar />
-          <BouquetBuilder />
-          <PhotoBooth />
-          <HugButton />
+          <KittenHero onScrollTo={handleScrollTo} />
+          <BalloonPop />
+          <CupcakeDecorator />
+          <FortuneCookie />
+          <CouponBook />
           <Footer />
           <MusicPlayer />
         </>
