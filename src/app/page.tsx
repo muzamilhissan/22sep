@@ -3,6 +3,7 @@
 import React from "react";
 import FloatingPetals from "@/components/FloatingPetals";
 import KittenHero from "@/components/KittenHero";
+import InfiniteBirthday from "@/components/InfiniteBirthday";
 import BalloonPop from "@/components/BalloonPop";
 import CupcakeDecorator from "@/components/CupcakeDecorator";
 import FortuneCookie from "@/components/FortuneCookie";
@@ -27,6 +28,7 @@ export default function Home() {
       {isClient && (
         <>
           <KittenHero onScrollTo={handleScrollTo} />
+          <InfiniteBirthday />
           <BalloonPop />
           <CupcakeDecorator />
           <FortuneCookie />
