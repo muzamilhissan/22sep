@@ -3,18 +3,34 @@ import React, { useState, useEffect, useRef } from "react";
 
 export default function InfiniteBirthday() {
   const [count, setCount] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const emojis = ["🎂", "🥳", "🎉", "💖", "✨", "🌸", "🎁", "🎈"];
 
   useEffect(() => {
+    // Load from localStorage on mount to avoid hydration mismatch
+    const savedCount = localStorage.getItem("erajBirthdayCount");
+    if (savedCount) {
+      setCount(parseInt(savedCount, 10));
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
     // Start interval
     const interval = setInterval(() => {
-      setCount((prev) => prev + 1);
+      setCount((prev) => {
+        const newCount = prev + 1;
+        localStorage.setItem("erajBirthdayCount", newCount.toString());
+        return newCount;
+      });
     }, 120);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isLoaded]);
 
   useEffect(() => {
     // Keep scrolled to bottom
